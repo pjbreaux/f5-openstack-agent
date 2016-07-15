@@ -16,6 +16,7 @@
 from time import time
 import uuid
 
+from distutils.version import LooseVersion
 from eventlet import greenthread
 from oslo_log import log as logging
 
@@ -101,3 +102,10 @@ def request_index(request_queue, request_id):
     for request in request_queue:
         if request[0] == request_id:
             return request_queue.index(request)
+
+
+def get_filter(bigip, key, op, value):
+    if LooseVersion(bigip.tmos_version) < LooseVersion('11.6.0'):
+        return '$filter=%s+%s+%s' % (key, op, value)
+    else:
+        return {'$filter': '%s %s %s' % (key, op, value)}

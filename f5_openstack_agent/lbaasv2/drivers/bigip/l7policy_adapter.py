@@ -41,6 +41,7 @@ class Action(object):
         '''Construct pool name from partition and OpenStack pool name.'''
         return '/{0}/{1}'.format(partition, action_value)
 
+
 class Condition(object):
     '''Describes a single condition for a rule.'''
 
